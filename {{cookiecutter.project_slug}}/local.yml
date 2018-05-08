@@ -15,6 +15,9 @@ services:
       {%- if cookiecutter.use_mailhog == 'y' %}
       - mailhog
       {%- endif %}
+      {%- if cookiecutter.use_vuejs_spa == 'y' %}
+      - node
+      {%- endif %}
     volumes:
       - .:/app
     env_file:
@@ -76,5 +79,17 @@ services:
       - ./.envs/.local/.postgres
     ports: []
     command: /start-celerybeat.sh
+
+  {%- endif %}
+  {%- if cookiecutter.use_vuejs_spa == 'y' %}
+
+  node:
+    build:
+      context: .
+      dockerfile: ./compose/local/node/Dockerfile
+    image: {{ cookiecutter.project_slug }}_local_node
+    volumes:
+      - .:/app
+      - /app/node_modules
 
   {%- endif %}

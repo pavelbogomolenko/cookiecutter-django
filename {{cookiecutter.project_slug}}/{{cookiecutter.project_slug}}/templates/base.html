@@ -50,7 +50,12 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>{% endraw %}
+            {% if cookiecutter.use_vuejs_spa == "y" %}
+            <li class="nav-item">
+              {% raw %}<a class="nav-link" href="{% url 'posts' %}">Posts</a>{% endraw %}
             </li>
+            {% endif %}{% raw %}
             {% if request.user.is_authenticated %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}

@@ -76,6 +76,9 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     '{{ cookiecutter.project_slug }}.users.apps.UsersConfig',
+{% if cookiecutter.use_vuejs_spa == 'y' -%}
+    '{{ cookiecutter.project_slug }}.posts.apps.PostsConfig',
+{%- endif %}
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

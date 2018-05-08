@@ -4,6 +4,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+{% if cookiecutter.use_vuejs_spa == 'y' -%}
+from .routers import router
+{%- endif %}
 
 urlpatterns = [
     url(r"^$", TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -20,6 +23,14 @@ urlpatterns = [
         include("{{ cookiecutter.project_slug }}.users.urls", namespace="users"),
     ),
     url(r"^accounts/", include("allauth.urls")),
+{% if cookiecutter.use_vuejs_spa == 'y' -%}
+    url(
+      r"^posts/$",
+      TemplateView.as_view(template_name="posts.html"),
+      name="posts",
+    ),
+    url(r"^api/", include(router.urls)),
+{%- endif %}
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

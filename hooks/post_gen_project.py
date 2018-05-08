@@ -93,6 +93,13 @@ def remove_dottravisyml_file():
     os.remove(".travis.yml")
 
 
+def remove_posts_app():
+    # remove posts app
+    shutil.rmtree(os.path.join("{{ cookiecutter.project_slug }}", "posts"))
+    # remove vue.js app
+    shutil.rmtree(os.path.join("{{ cookiecutter.project_slug }}", "static", "js", "app"))
+
+
 def append_to_project_gitignore(path):
     gitignore_file_path = ".gitignore"
     with open(gitignore_file_path, "a") as gitignore_file:
@@ -271,7 +278,10 @@ def main():
     else:
         remove_gulp_files()
         remove_grunt_files()
-        remove_packagejson_file()
+        if "{{ cookiecutter.use_vuejs_spa }}".lower() == "n":
+            remove_packagejson_file()
+            remove_posts_app()
+
     if (
         "{{ cookiecutter.js_task_runner }}".lower() in ["grunt", "gulp"]
         and "{{ cookiecutter.use_docker }}".lower() == "y"
